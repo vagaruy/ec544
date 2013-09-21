@@ -18,9 +18,7 @@ import com.sun.spot.util.Utils;
 import java.io.IOException;
 import java.util.Date;
 
-import javax.microedition.io.Connector;
-import javax.microedition.io.Datagram;
-import javax.microedition.io.DatagramConnection;
+
 
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
@@ -49,31 +47,12 @@ public class SunSpotApplication extends MIDlet {
             System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
             ITemperatureInput therm = (ITemperatureInput) Resources.lookup(ITemperatureInput.class);
              System.out.println(therm.getDescription());
-             DatagramConnection dgConnection = null;
-             Datagram dg = null;
+             
                 double temp= therm.getCelsius();
                 
-                try {
-                    // The Connection is a broadcast so we specify it in the creation string
-                    dgConnection = (DatagramConnection) Connector.open("radiogram://broadcast:37");
-                    // Then, we ask for a datagram with the maximum size allowed
-                    dg = dgConnection.newDatagram(dgConnection.getMaximumLength());
-                } catch (IOException ex) {
-                    System.out.println("Could not open radiogram broadcast connection");
-                    return;
-                }
-                try {
-                        // We send the message (UTF encoded)
-                        dg.reset();
-                        
-                        dg.writeDouble(temp);
-			
-                        dgConnection.send(dg);
-                        System.out.println("Broadcast is going through");
-                    } catch (IOException ex) {
-                    }
+               
 				
-            Utils.sleep(1000);                  // wait 1 second
+                             // wait 1 second
         } catch (IOException ex) {
             ex.printStackTrace();
         }
