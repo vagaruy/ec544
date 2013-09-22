@@ -104,8 +104,8 @@ public class SunSpotApplication extends MIDlet {
             //Get the MAC address from the radio....save it in a long
             long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
             System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
-    send_temperature.start();
-    listen_server.start();
+            send_temperature.start();
+            listen_server.start();
     
     
     }
