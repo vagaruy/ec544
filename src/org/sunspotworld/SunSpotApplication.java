@@ -13,6 +13,7 @@ import com.sun.spot.resources.transducers.ITriColorLED;
 import com.sun.spot.resources.transducers.ITriColorLEDArray;
 import com.sun.spot.resources.transducers.LEDColor;
 import com.sun.spot.service.BootloaderListenerService;
+import com.sun.spot.service.Task;
 import com.sun.spot.util.IEEEAddress;
 import com.sun.spot.util.Utils;
 import java.io.IOException;
@@ -32,30 +33,46 @@ import javax.microedition.midlet.MIDletStateChangeException;
  */
 public class SunSpotApplication extends MIDlet {
     //to access and control the array of 3 color LEDs
+    long read_temp_time;
+    long server_listen_time;
+    double temp;
+    Task read_temperature = new Task( read_temp_time){
+        public void doTask() throws IOException{
+            temp=find_temp();
+        }
+        
+    };
+    
+    Task listen_server=new Task(server_listen_time)
+    {
+       public void doTask() throws IOException{
+           
+       }
+    };
+    
+    double find_temp() throws IOException
+    {
+        ITemperatureInput therm = (ITemperatureInput) Resources.lookup(ITemperatureInput.class);
+        return therm.getCelsius();
+    }
     
 
     protected void startApp() throws MIDletStateChangeException {
-        try {        
-            //Print to the screen
-            //System.out.println("Hello, world");
-            
+           
+                       
             //Monitoring commands from the server
             BootloaderListenerService.getInstance().start();   // monitor the USB (if connected) and recognize commands from host
             
             //Get the MAC address from the radio....save it in a long
             long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
             System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
-            ITemperatureInput therm = (ITemperatureInput) Resources.lookup(ITemperatureInput.class);
-             System.out.println(therm.getDescription());
-             
-                double temp= therm.getCelsius();
+            
+            
                 
                
 				
-                             // wait 1 second
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+                   
+        
     }
         //notifyDestroyed();                      // cause the MIDlet to exit
         
