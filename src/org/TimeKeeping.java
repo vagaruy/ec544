@@ -12,14 +12,19 @@ package org;
 import java.util.Date;
 public class TimeKeeping {
     Date date;
-    void TimeKeeping(long time)
+    void TimeKeeping()
     {
-        date=new Date(time);
+        date=new Date();
     }
     
-    long getTimeStamp()
+    public long getTimeStamp()
     {
         return date.getTime();
+    }
+    
+    public void setTimeStamp(long time)
+    {
+       date.setTime(time);
     }
     
 }

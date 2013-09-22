@@ -23,6 +23,10 @@ import java.util.Date;
 
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
+import org.LedPlayer;
+import org.RadioCommunication;
+import org.RadioData;
+import org.TimeKeeping;
 
 /**
  * The startApp method of this class is called by the VM to start the
@@ -35,17 +39,51 @@ public class SunSpotApplication extends MIDlet {
     //to access and control the array of 3 color LEDs
     long read_temp_time;
     long server_listen_time;
+    long send_temp_time;
+    RadioCommunication radio;
+    TimeKeeping time;
+    LedPlayer led;
+    RadioData data;
     double temp;
-    Task read_temperature = new Task( read_temp_time){
+    void SunSpotApplication()
+    {
+        radio=new RadioCommunication();
+        time =new TimeKeeping();
+        led=new LedPlayer();
+        data=new RadioData();
+    }
+    
+    
+    Task send_temperature = new Task( read_temp_time){
+        
         public void doTask() throws IOException{
-            temp=find_temp();
+            data.temp=(float) find_temp();
+            data.command="READING";
+            data.timestamp=time.getTimeStamp();
+            radio.sendData(data);
+            led.temp_bit((int) data.temp);
+            led.flash_sending();
+            
         }
         
     };
     
     Task listen_server=new Task(server_listen_time)
     {
-       public void doTask() throws IOException{
+       //String task;
+            public void doTask() throws IOException{
+            data=radio.recieveData();
+            if(data.command.compareTo("TIME")==0)
+            {
+                time.setTimeStamp(data.timestamp);
+            }
+            else if (data.command.compareTo("SEND_READING")==0)
+            {
+                data.command="READING";
+                data.temp=(float) find_temp();
+                data.timestamp=time.getTimeStamp();
+                radio.sendData(data);
+            }
            
        }
     };
@@ -66,19 +104,12 @@ public class SunSpotApplication extends MIDlet {
             //Get the MAC address from the radio....save it in a long
             long ourAddr = RadioFactory.getRadioPolicyManager().getIEEEAddress();
             System.out.println("Our radio address = " + IEEEAddress.toDottedHex(ourAddr));
-            
-            
-                
-               
-				
-                   
-        
+    send_temperature.start();
+    listen_server.start();
+    
+    
     }
         //notifyDestroyed();                      // cause the MIDlet to exit
-        
-    
-    
-
     protected void pauseApp() {
         // This is not currently called by the Squawk VM
     }

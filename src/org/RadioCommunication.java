@@ -32,7 +32,7 @@ public class RadioCommunication {
                     return;
                 }
     }
-    void sendData(RadioData data) throws IOException
+    public void sendData(RadioData data) throws IOException
     {
         dg.reset();
         dg.writeUTF(data.command);
@@ -42,7 +42,7 @@ public class RadioCommunication {
         
     }
     
-    RadioData recieveData()throws IOException
+    public RadioData recieveData()throws IOException
     {
         RadioData packet=null;
         packet.command=dg.readUTF();

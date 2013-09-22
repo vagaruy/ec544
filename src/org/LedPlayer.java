@@ -35,7 +35,7 @@ public class LedPlayer {
         else
             return 0;
     }
-    void flash_sending()
+    public void flash_sending()
     {
         if(leds!=null)
         {
@@ -48,7 +48,7 @@ public class LedPlayer {
         
     }
     
-    void battery_indicator(int bat)//normalise the values from 0-100
+    public void battery_indicator(int bat)//normalise the values from 0-100
     {
         if(leds!=null)
         {
@@ -69,7 +69,7 @@ public class LedPlayer {
         }
     }
     
-    void temp_bit(int temp)//supports temp 0 to 64C good enough I guess..
+    public void temp_bit(int temp)//supports temp 0 to 64C good enough I guess..
     {
         if(leds!=null)
         {
