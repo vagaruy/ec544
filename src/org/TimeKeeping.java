@@ -1,4 +1,4 @@
-package org;
+package org.sunspotworld;
 
 /*
  * To change this template, choose Tools | Templates
@@ -14,7 +14,7 @@ public class TimeKeeping {
     Date date;
     void TimeKeeping()
     {
-        date=new Date();
+        date=new Date(19999939);
     }
     
     public long getTimeStamp()

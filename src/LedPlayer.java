@@ -1,4 +1,4 @@
-package org;
+
 
 
 import com.sun.spot.resources.Resources;
@@ -18,8 +18,8 @@ import com.sun.spot.util.Utils;
  */
 public class LedPlayer {
     
-    ITriColorLEDArray leds;
-    ITriColorLED led;
+    ITriColorLEDArray leds=null;
+    ITriColorLED led=null;
     
       
     void LedPlayer()
@@ -44,6 +44,10 @@ public class LedPlayer {
         led.setOn(true);
         Utils.sleep(500);
         led.setOn(false);
+        }
+        else
+        {
+            System.out.println("LEDS cannot be found");
         }
         
     }

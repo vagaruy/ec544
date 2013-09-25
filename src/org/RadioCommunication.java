@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org;
+package org.sunspotworld;
 import java.io.IOException;
 import javax.microedition.io.Connector;
 import javax.microedition.io.Datagram;
@@ -24,9 +24,10 @@ public class RadioCommunication {
     {
         try {
                     // The Connection is a broadcast so we specify it in the creation string
-                    dgConnection = (DatagramConnection) Connector.open(type+"://"+ADDR+":"+port);
+                    dgConnection = (DatagramConnection) Connector.open("radiogram://broadcast:37");
                     // Then, we ask for a datagram with the maximum size allowed
                     dg = dgConnection.newDatagram(dgConnection.getMaximumLength());
+                    //System.out.println(dg);
         } catch (IOException ex) {
                     System.out.println("Could not open radiogram broadcast connection");
                     return;
@@ -34,6 +35,7 @@ public class RadioCommunication {
     }
     public void sendData(RadioData data) throws IOException
     {
+        //System.out.println("data from isnide sendData is "+data.command);
         dg.reset();
         dg.writeUTF(data.command);
         dg.writeFloat(data.temp);
