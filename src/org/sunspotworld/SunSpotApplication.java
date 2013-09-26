@@ -131,7 +131,7 @@ public class SunSpotApplication extends MIDlet {
         dg.reset();
         dg.writeUTF(data.command);
         dg.writeFloat(data.temp);
-        dg.writeLong(data.timestamp);
+        //dg.writeLong(data.timestamp);
         dgConnection.send(dg);
         
     }
@@ -282,7 +282,7 @@ public class SunSpotApplication extends MIDlet {
              leds=(ITriColorLEDArray) Resources.lookup(ITriColorLEDArray.class);
              date=new Date();
             send_temperature.start();
-            listen_server.start();
+            //listen_server.start();
            
            // listen_server.start();
         } catch (IOException ex) {
